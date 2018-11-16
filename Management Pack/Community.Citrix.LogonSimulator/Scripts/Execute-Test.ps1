@@ -31,8 +31,6 @@ try {
 	# Log complete
 	$api.LogScriptEvent($scriptName, 1001, 0, "Finished with output: $scriptResult")
 
-	$api.LogScriptEvent($scriptName, 1002, 0, '$ConfigurationPath\Logs\$TestName')
-
 	# Interpret errors as SCOM monitor result
 	if($scriptResult -eq 0) { $state = "good" } else { $state = "bad" }
 

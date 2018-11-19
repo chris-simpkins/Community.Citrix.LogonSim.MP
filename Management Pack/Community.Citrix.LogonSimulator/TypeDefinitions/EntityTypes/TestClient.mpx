@@ -8,10 +8,9 @@
           <Property ID="StoreFrontUrl" Type="string" MaxLength="256" MinLength="0" Required="true"/>
           <Property ID="ResourceName" Type="string" MaxLength="256" MinLength="0" Required="true"/>
           <Property ID="LogFileName" Type="string" MaxLength="256" MinLength="0" Required="true"/>
-          <Property ID="TimeoutForSFLoginPage" Type="int" Required="false"/>
-          <Property ID="TimeoutForSFResourcesPage" Type="int" Required="false"/>
-          <Property ID="TimeoutForSessionLogin" Type="int" Required="false"/>
-          <Property ID="TimeoutForOther" Type="int" Required="false"/>
+          <Property ID="Browser" Type="string"  MaxLength="256" MinLength="0" Required="false"/>
+          <Property ID="TimeoutForResource" Type="int" Required="false"/>
+          <Property ID="TimeoutForElements" Type="int" Required="false"/>
           <Property ID="Interval" Type="int" Required="true"/>
           <Property ID="SyncTime" Type="string" MaxLength="256" MinLength="0" Required="false"/>
         </ClassType>
@@ -51,20 +50,16 @@
           <Name>Log File Name</Name>
           <Description></Description>
         </DisplayString>
-        <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="TimeoutForSFLoginPage">
-          <Name>Timeout For SF Login Page</Name>
+        <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="Browser">
+          <Name>Browser Type</Name>
           <Description></Description>
         </DisplayString>
-        <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="TimeoutForSFResourcesPage">
-          <Name>Timeout For SF Resources Page</Name>
+        <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="TimeoutForResource">
+          <Name>Resource Timeout</Name>
           <Description></Description>
         </DisplayString>
-        <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="TimeoutForSessionLogin">
-          <Name>Timeout For Session Login</Name>
-          <Description></Description>
-        </DisplayString>
-        <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="TimeoutForOther">
-          <Name>Timeout For Other</Name>
+        <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="TimeoutForElements">
+          <Name>Elements Timeout</Name>
           <Description></Description>
         </DisplayString>
         <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="Interval">

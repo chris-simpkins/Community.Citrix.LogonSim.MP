@@ -17,10 +17,9 @@ function AddDiscoveredObject {
 		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/StoreFrontUrl$", [string]$configuration.storeFrontUrl) 
 		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/ResourceName$", [string]$configuration.resourceName) 
 		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/LogFileName$", [string]$configuration.logFileName) 
-		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/TimeoutForSFLoginPage$", [int]$configuration.timeoutForSFLoginPage) 
-		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/TimeoutForSFResourcesPage$", [int]$configuration.timeoutForSFResourcesPage) 
-		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/TimeoutForSessionLogin$", [int]$configuration.timeoutForSessionLogin) 
-		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/TimeoutForOther$", [int]$configuration.timeoutForOther) 
+		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/Browser$", [string]$configuration.browser) 
+		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/TimeoutForResource$", [int]$configuration.timeoutForResource) 
+		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/TimeoutForElements$", [int]$configuration.timeoutForElements) 
 		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/Interval$", [int]$configuration.interval)
 		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/SyncTime$", [string]$configuration.syncTime)
 

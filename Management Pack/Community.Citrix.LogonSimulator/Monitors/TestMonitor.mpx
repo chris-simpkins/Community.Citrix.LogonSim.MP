@@ -52,20 +52,16 @@
               <Value>$Target/Property[Type="Community.Citrix.LogonSimulator.Test"]/LogFileName$</Value>
             </Parameter>
             <Parameter>
-              <Name>TimeoutForSFLoginPage</Name>
-              <Value>$Target/Property[Type="Community.Citrix.LogonSimulator.Test"]/TimeoutForSFLoginPage$</Value>
+              <Name>Browser</Name>
+              <Value>$Target/Property[Type="Community.Citrix.LogonSimulator.Test"]/Browser$</Value>
             </Parameter>
             <Parameter>
-              <Name>TimeoutForSFResourcesPage</Name>
-              <Value>$Target/Property[Type="Community.Citrix.LogonSimulator.Test"]/TimeoutForSFResourcesPage$</Value>
+              <Name>TimeoutForResource</Name>
+              <Value>$Target/Property[Type="Community.Citrix.LogonSimulator.Test"]/TimeoutForResource$</Value>
             </Parameter>
             <Parameter>
-              <Name>TimeoutForSessionLogin</Name>
-              <Value>$Target/Property[Type="Community.Citrix.LogonSimulator.Test"]/TimeoutForSessionLogin$</Value>
-            </Parameter>
-            <Parameter>
-              <Name>TimeoutForOther</Name>
-              <Value>$Target/Property[Type="Community.Citrix.LogonSimulator.Test"]/TimeoutForOther$</Value>
+              <Name>TimeoutForElements</Name>
+              <Value>$Target/Property[Type="Community.Citrix.LogonSimulator.Test"]/TimeoutForElements$</Value>
             </Parameter>
           </Parameters>
           <TimeoutSeconds>600</TimeoutSeconds>

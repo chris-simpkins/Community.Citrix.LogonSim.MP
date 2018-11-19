@@ -7,10 +7,9 @@
 	$TestName,
 	$ConfigurationPath,
 	$LogFileName,
-	$TimeoutForSFLoginPage,
-	$TimeoutForSFResourcesPage,
-	$TimeoutForSessionLogin,
-	$TimeoutForOther
+	$Browser,
+	$TimeoutForResource,
+	$TimeoutForElements
 )
 
 $scriptName = "Execute-Test.ps1"
@@ -24,9 +23,8 @@ try {
 	# SCOM log start
 	$api.LogScriptEvent($scriptName, 1000, 0, "Started")
 
-	$Password = ConvertTo-SecureString $Password -AsPlainText -Force
-
-	$scriptResult = (Start-Process powershell -verb 'runas' -ArgumentList '-File',"$ConfigurationPath\Scripts\Test-CitrixApp.ps1",'-LogFilePath',"$ConfigurationPath\Logs",'-LogFileName','sflauncher.log','-SiteURL',$StoreFrontUrl,'-UserName',"$Domain\$UserName",'-Password',$Password,'-ResourceName',$ResourceName -Wait -PassThru).ExitCode	
+	# Execute logon simulator script
+	$scriptResult = (Start-Process powershell -verb 'runas' -ArgumentList '-File',"$ConfigurationPath\Scripts\Test-CitrixApp.ps1",'-LogFilePath',"$ConfigurationPath\Logs",'-LogFileName','launcher.log','-SiteURL',$StoreFrontUrl,'-UserName',"$Domain\$UserName",'-Password',$Password,'-ResourceName',$ResourceName,'-Browser',$Browser,'-ResourceTimeout',$TimeoutForResource,'-ElementTimeout',$TimeoutForElements -Wait -PassThru).ExitCode	
 
 	# Log complete
 	$api.LogScriptEvent($scriptName, 1001, 0, "Finished with output: $scriptResult")

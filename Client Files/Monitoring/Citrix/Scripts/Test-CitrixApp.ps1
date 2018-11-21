@@ -21,8 +21,10 @@ function Test-Citrix {
     Write-LauncherLog "Testing URL $SiteURL"
     Enter-SeUrl -Driver $Driver -Url $SiteURL
 
-    Write-LauncherLog "Testing login"
     waitForElement id "username"
+	Write-LauncherLog "Login page loaded successfully"
+
+	Write-LauncherLog "Testing login"
     $Element = Find-SeElement -Driver $Driver -Id "username" 
     Invoke-SeClick -Element $Element
 	Send-SeKeys -Element $Element -Keys $UserName
@@ -35,7 +37,7 @@ function Test-Citrix {
     waitForElement class "button_30ql4o"
 
     if($present -ne $false) {
-        write-output "Lite version popup found"
+        write-LauncherLog "Lite version popup found"
         $Element = Find-SeElement -Driver $Driver -ClassName "button_30ql4o" #This may differ on different deployments of citrix
         Invoke-SeClick -Element $Element
     }
@@ -85,7 +87,9 @@ function waitForElement($selectorType, $selector) {
             write-LauncherLog "Found element!"  
             Set-Variable -Name "present" -value $true -Scope Global        
             $i=$ElementTimeout
-        }
+        } elseif(($null -eq $Element) -and ($i -eq $ElementTimeout)){
+			Write-output "Unable to locate element: $selector"
+		}
     }
 }
 
@@ -196,8 +200,3 @@ finally {
 }
 
 exit 0
-
-
-
-
-

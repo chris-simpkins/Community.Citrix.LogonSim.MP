@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Management Pack/Community.Citrix.LogonSimulator/bin/Debug
+/Management Pack/Community.Citrix.LogonSimulator/obj/Debug
+/Client Files/Monitoring/Citrix/Logs
+/Client Files/Monitoring/Citrix/Scripts/debug.log
+/Management Pack/.vs/Community.Citrix.LogonSimulator/v15/.suo
+/Management Pack/csnk.snk
+/Management Pack/.vs/config/applicationhost.config

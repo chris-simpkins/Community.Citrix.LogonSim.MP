@@ -22,12 +22,12 @@ function Test-Citrix {
     Enter-SeUrl -Driver $Driver -Url $SiteURL
 
     waitForElement id "username"
-	Write-LauncherLog "Login page loaded successfully"
+    Write-LauncherLog "Login page loaded successfully"
 
-	Write-LauncherLog "Testing login"
+    Write-LauncherLog "Testing login"
     $Element = Find-SeElement -Driver $Driver -Id "username" 
     Invoke-SeClick -Element $Element
-	Send-SeKeys -Element $Element -Keys $UserName
+    Send-SeKeys -Element $Element -Keys $UserName
     $Element = Find-SeElement -Driver $Driver -Id "password"
     Send-SeKeys -Element $Element -Keys $Password
     $Element = Find-SeElement -Driver $Driver -Id "loginBtn"
@@ -88,8 +88,8 @@ function waitForElement($selectorType, $selector) {
             Set-Variable -Name "present" -value $true -Scope Global        
             $i=$ElementTimeout
         } elseif(($null -eq $Element) -and ($i -eq $ElementTimeout)){
-			Write-output "Unable to locate element: $selector"
-		}
+	    Write-output "Unable to locate element: $selector"
+	}
     }
 }
 

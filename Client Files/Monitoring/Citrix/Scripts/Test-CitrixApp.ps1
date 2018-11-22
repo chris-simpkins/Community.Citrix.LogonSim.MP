@@ -11,66 +11,16 @@ Param (
     [Parameter(Mandatory=$false,Position=9)] [int]$ResourceTimeout,
     [Parameter(Mandatory=$false,Position=10)] [int]$ElementTimeout
 )
-
-Set-Variable -Name "present" -Value $false -Scope Global
  
 Import-Module (Join-Path $PSScriptRoot "Selenium.psm1")
 
-function Test-Citrix {  
-
-    Write-LauncherLog "Testing URL $SiteURL"
-    Enter-SeUrl -Driver $Driver -Url $SiteURL
-
-    waitForElement id "username"
-    Write-LauncherLog "Login page loaded successfully"
-
-    Write-LauncherLog "Testing login"
-    $Element = Find-SeElement -Driver $Driver -Id "username" 
-    Invoke-SeClick -Element $Element
-    Send-SeKeys -Element $Element -Keys $UserName
-    $Element = Find-SeElement -Driver $Driver -Id "password"
-    Send-SeKeys -Element $Element -Keys $Password
-    $Element = Find-SeElement -Driver $Driver -Id "loginBtn"
-    Invoke-SeClick -Element $Element
-
-    Write-LauncherLog "Looking for Lite version popup..."
-    waitForElement class "button_30ql4o"
-
-    if($present -ne $false) {
-        write-LauncherLog "Lite version popup found"
-        $Element = Find-SeElement -Driver $Driver -ClassName "button_30ql4o" #This may differ on different deployments of citrix
-        Invoke-SeClick -Element $Element
-    }
-    
-    Write-LauncherLog "Waiting for resource: $ResourceName"
-    waitForElement xpath "//span[@title='$ResourceName']"
-
-    Write-LauncherLog "Getting resource: $ResourceName"
-    $Element = Find-SeElement -Driver $Driver -XPath "//span[@title='$ResourceName']"
-
-    Write-LauncherLog "Clicking resource: $ResourceName"
-    Invoke-SeClick -Element $Element
-    
-    Write-LauncherLog "Waiting for resource timeout"
-    start-sleep -seconds $ResourceTimeout
-
-    Write-LauncherLog "Verifying session launched"
-    $Driver.SwitchTo().Window($Driver.WindowHandles[1])
-
-    $Application = $Driver.Title
-
-    if($Application -eq $ResourceName){
-        Write-LauncherLog "Resource $ResourceName launched successfully"
-    } else {
-        throw "Unable to confirm session launched"
-    }  
-
-}
+. C:\Monitoring\Citrix\Scripts\Test-Citrix.ps1
 
 function waitForElement($selectorType, $selector) {
     
     for($i=0; $i -le $ElementTimeout; $i++) {
-        Set-Variable -Name "present" -value $false -Scope Global 
+        Set-Variable -Name "ElementPresent" -value $false -Scope Global
+        Set-Variable -Name "Element" -Value $null -Scope Global
         Start-Sleep -Seconds 1
         Write-LauncherLog "$i : Waiting for element: $selector"
 
@@ -83,20 +33,144 @@ function waitForElement($selectorType, $selector) {
             "link" { $Element = Find-SeElement -Driver $Driver -LinkText $selector }
         }
 
-        if($null -ne $Element) { 
+        if($Element) { 
             write-LauncherLog "Found element!"  
-            Set-Variable -Name "present" -value $true -Scope Global        
+            Set-Variable -Name "ElementPresent" -value $true -Scope Global     
+            Set-Variable -Name "Element" -Value $Element -Scope Global
             $i=$ElementTimeout
-        } elseif(($null -eq $Element) -and ($i -eq $ElementTimeout)){
-	    Write-output "Unable to locate element: $selector"
-	}
+        } elseif((!$Element) -and ($i -eq $ElementTimeout)){
+			Write-LauncherLog "Unable to locate element: $selector"
+		}
     }
 }
 
-function Switch-Tab {
+function Enter-Url($Url) {
 
-    $wshell=New-Object -ComObject wscript.shell
-    $wshell.SendKeys('^{PGUP}')
+    Enter-SeUrl -Driver $Driver -Url $Url
+
+}
+
+function Click-Button {
+
+    param(
+        [Parameter(ParameterSetName = "name")]
+        $Name,
+        [Parameter(ParameterSetName = "id")]
+        $Id,
+        [Parameter(ParameterSetName = "class")]
+        $ClassName,
+        [Parameter(ParameterSetName = "link")]
+        $LinkText,
+        [Parameter(ParameterSetName = "tag")]
+        $TagName,
+        [Parameter(ParameterSetName = "xpath")]
+        $XPath,
+        [Parameter()]
+        $optional
+    )
+
+    switch ($PSCmdlet.ParameterSetName) {
+
+        "name" { waitForElement "name" $Name }
+        "id" { waitForElement "id" $Id }
+        "link" { waitForElement "link" $LinkText }
+        "class" { waitForElement "class" $ClassName }
+        "tag" { waitForElement "tag" $TagName }
+        "xpath" { waitForElement "xpath" $XPath }
+
+    }
+
+    if(!$Element){
+        if(!$optional){
+            Write-LauncherLog "Unable to find element"
+            Exit 1
+        }
+    } else {
+        Invoke-SeClick -Element $Element
+    }
+
+}
+
+function Enter-Text {
+
+    param(
+        [Parameter(ParameterSetName = "name")]
+        $Name,
+        [Parameter(ParameterSetName = "id")]
+        $Id,
+        [Parameter(ParameterSetName = "class")]
+        $ClassName,
+        [Parameter(ParameterSetName = "link")]
+        $LinkText,
+        [Parameter(ParameterSetName = "tag")]
+        $TagName,
+        [Parameter(ParameterSetName = "xpath")]
+        $XPath,
+        [Parameter()]
+        $text
+    )
+
+    switch ($PSCmdlet.ParameterSetName) {
+
+        "name" { waitForElement "name" $Name }
+        "id" { waitForElement "id" $Id }
+        "link" { waitForElement "link" $LinkText }
+        "class" { waitForElement "class" $ClassName }
+        "tag" { waitForElement "tag" $TagName }
+        "xpath" { waitForElement "xpath" $XPath }
+
+    }
+
+    Send-SeKeys -Element $Element -Keys $text
+
+}
+
+function Check-NotExist {
+
+    param(
+        [Parameter(ParameterSetName = "name")]
+        $Name,
+        [Parameter(ParameterSetName = "id")]
+        $Id,
+        [Parameter(ParameterSetName = "class")]
+        $ClassName,
+        [Parameter(ParameterSetName = "link")]
+        $LinkText,
+        [Parameter(ParameterSetName = "tag")]
+        $TagName,
+        [Parameter(ParameterSetName = "xpath")]
+        $XPath,
+        [Parameter()]
+        $text
+    )
+
+    switch ($PSCmdlet.ParameterSetName) {
+
+        "name" { waitForElement "name" $Name }
+        "id" { waitForElement "id" $Id }
+        "link" { waitForElement "link" $LinkText }
+        "class" { waitForElement "class" $ClassName }
+        "tag" { waitForElement "tag" $TagName }
+        "xpath" { waitForElement "xpath" $XPath }
+
+    }
+
+    if($ElementPresent -eq $false){
+        write-launcherLog "Element does was not found, continuing..."
+    } else {
+        write-launcherLog "Element found, aborting..."
+        exit 1
+    }
+
+}
+
+function Switch-Tab($index) {
+
+    $index = $($index - 1)
+
+    Set-Variable -Name "Tab" -Value $Driver -Scope Global
+
+    $Driver.SwitchTo().Window($Driver.WindowHandles[$index])
 
 }
 

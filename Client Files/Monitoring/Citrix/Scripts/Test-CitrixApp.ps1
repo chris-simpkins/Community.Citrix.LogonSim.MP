@@ -125,6 +125,45 @@ function Enter-Text {
 
 }
 
+function Check-Exist {
+
+    param(
+        [Parameter(ParameterSetName = "name")]
+        $Name,
+        [Parameter(ParameterSetName = "id")]
+        $Id,
+        [Parameter(ParameterSetName = "class")]
+        $ClassName,
+        [Parameter(ParameterSetName = "link")]
+        $LinkText,
+        [Parameter(ParameterSetName = "tag")]
+        $TagName,
+        [Parameter(ParameterSetName = "xpath")]
+        $XPath,
+        [Parameter()]
+        $text
+    )
+
+    switch ($PSCmdlet.ParameterSetName) {
+
+        "name" { waitForElement "name" $Name }
+        "id" { waitForElement "id" $Id }
+        "link" { waitForElement "link" $LinkText }
+        "class" { waitForElement "class" $ClassName }
+        "tag" { waitForElement "tag" $TagName }
+        "xpath" { waitForElement "xpath" $XPath }
+
+    }
+
+    if($ElementPresent -eq $false){
+        write-launcherLog "Element was not found, aborting..."
+        exit 1
+    } else {
+        write-launcherLog "Element found, continuing..."
+    }
+
+}
+
 function Check-NotExist {
 
     param(
@@ -156,7 +195,7 @@ function Check-NotExist {
     }
 
     if($ElementPresent -eq $false){
-        write-launcherLog "Element does was not found, continuing..."
+        write-launcherLog "Element was not found, continuing..."
     } else {
         write-launcherLog "Element found, aborting..."
         exit 1
@@ -246,10 +285,10 @@ try {
     Write-LauncherLog "Opening Driver Browser"
     if($Browser -eq "firefox") {
         $Driver = Start-SeFirefox
-    } elseif($Browser -eq "ie") {
-        $Driver = Start-SeIe
-    } else {
+    } elseif($Browser -eq "chrome") {
         $Driver = Start-SeChrome
+    } else {
+        $Driver = Start-SeIe
     }
     
     Test-Citrix

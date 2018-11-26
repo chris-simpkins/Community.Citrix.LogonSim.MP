@@ -1,3 +1,3 @@
-﻿param($ConfigurationPath, $TestName)
+﻿param($ConfigurationPath)
 
-Get-Content $ConfigurationPath\Logs\$TestName\sflauncher.log
+Get-Content $ConfigurationPath\Logs\launcher.log

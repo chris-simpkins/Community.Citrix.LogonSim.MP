@@ -3,7 +3,7 @@
     Write-LauncherLog "Testing URL $SiteURL"
     Enter-Url $SiteURL
 
-    waitForElement id "username"
+    Check-Exist -Id "username"
 	Write-LauncherLog "Login page loaded successfully"
 
 	Write-LauncherLog "Entering Username"

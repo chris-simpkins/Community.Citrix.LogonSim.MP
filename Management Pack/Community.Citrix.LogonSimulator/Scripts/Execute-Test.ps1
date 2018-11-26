@@ -24,7 +24,7 @@ try {
 	$api.LogScriptEvent($scriptName, 1000, 0, "Started")
 
 	# Execute logon simulator script
-	$scriptResult = (Start-Process powershell -verb 'runas' -ArgumentList '-File',"$ConfigurationPath\Scripts\Test-CitrixApp.ps1",'-LogFilePath',"$ConfigurationPath\Logs",'-LogFileName','launcher.log','-SiteURL',$StoreFrontUrl,'-UserName',"$Domain\$UserName",'-Password',$Password,'-ResourceName',$ResourceName,'-Browser',$Browser,'-ResourceTimeout',$TimeoutForResource,'-ElementTimeout',$TimeoutForElements -Wait -PassThru).ExitCode	
+	$scriptResult = (Start-Process powershell -verb 'runas' -ArgumentList '-File',"$ConfigurationPath\Scripts\Test-CitrixApp.ps1",'-LogFilePath',"$ConfigurationPath\Logs",'-LogFileName',$LogFileName,'-SiteURL',$StoreFrontUrl,'-UserName',"$Domain\$UserName",'-Password',$Password,'-ResourceName',$ResourceName,'-Browser',$Browser,'-ResourceTimeout',$TimeoutForResource,'-ElementTimeout',$TimeoutForElements -Wait -PassThru).ExitCode	
 
 	# Log complete
 	$api.LogScriptEvent($scriptName, 1001, 0, "Finished with output: $scriptResult")

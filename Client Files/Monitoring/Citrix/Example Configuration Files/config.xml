@@ -2,7 +2,7 @@
   <name>CITRIX-EUR (Citrix Simulated Login) XML DEMO</name>
   <storefrontUrl>https://mycorp.com/Citrix/StoreWeb</storefrontUrl>
   <resourceName>Notepad</resourceName>
-  <logFileName>sflauncher.log</logFileName>
+  <logFileName>launcher.log</logFileName>
   <browser>ie</browser>
   <timeoutForResource>30</timeoutForResource>
   <timeoutForElements>30</timeoutForElements>

@@ -2,7 +2,7 @@
   "name":"CITRIX-EUR (Citrix Simulated Login)",
   "storefrontUrl":"https://mycorp.com/Citrix/StoreWeb",
   "resourceName": "Notepad",
-  "logFileName":"sflauncher.log",
+  "logFileName":"launcher.log",
   "browser": "ie",
   "timeoutForResource": 30,
   "timeoutForElements": 30, 

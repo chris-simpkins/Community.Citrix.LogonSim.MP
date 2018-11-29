@@ -56,6 +56,10 @@
               <Value>$Target/Property[Type="Community.Citrix.LogonSimulator.Test"]/Browser$</Value>
             </Parameter>
             <Parameter>
+              <Name>TestScript</Name>
+              <Value>$Target/Property[Type="Community.Citrix.LogonSimulator.Test"]/TestScript$</Value>
+            </Parameter>
+            <Parameter>
               <Name>TimeoutForResource</Name>
               <Value>$Target/Property[Type="Community.Citrix.LogonSimulator.Test"]/TimeoutForResource$</Value>
             </Parameter>

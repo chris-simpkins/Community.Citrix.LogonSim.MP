@@ -9,12 +9,13 @@ Param (
     [Parameter(Mandatory=$false,Position=7)] [switch]$NoConsoleOutput,
     [Parameter(Mandatory=$true,Position=8)] [string]$Browser,
     [Parameter(Mandatory=$false,Position=9)] [int]$ResourceTimeout,
-    [Parameter(Mandatory=$false,Position=10)] [int]$ElementTimeout
+    [Parameter(Mandatory=$false,Position=10)] [int]$ElementTimeout,
+	[Parameter(Mandatory=$true,Position=11)] [string]$TestScript
 )
  
 Import-Module (Join-Path $PSScriptRoot "Selenium.psm1")
 
-. C:\Monitoring\Citrix\Scripts\Test-Citrix.ps1
+. C:\Monitoring\Citrix\Scripts\$TestScript
 
 function waitForElement($selectorType, $selector) {
     
@@ -82,10 +83,10 @@ function Click-Button {
 
     if(!$Element){
         if(!$optional){
-            Write-LauncherLog "Unable to find element"
-            Exit 1
+            throw "Unable to find element"
         }
     } else {
+		Start-Sleep -seconds 1
         Invoke-SeClick -Element $Element
     }
 
@@ -156,8 +157,7 @@ function Check-Exist {
     }
 
     if($ElementPresent -eq $false){
-        write-launcherLog "Element was not found, aborting..."
-        exit 1
+        throw "Element was not found, aborting..."
     } else {
         write-launcherLog "Element found, continuing..."
     }
@@ -197,8 +197,7 @@ function Check-NotExist {
     if($ElementPresent -eq $false){
         write-launcherLog "Element was not found, continuing..."
     } else {
-        write-launcherLog "Element found, aborting..."
-        exit 1
+        throw "Element found, aborting..."
     }
 
 }

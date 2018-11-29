@@ -1,3 +1,3 @@
 ﻿param($ConfigurationPath, $LogFileName)
 
-Get-Content $ConfigurationPath\Logs\$LogFileName
+Get-Content $ConfigurationPath\Logs\launcher.log

@@ -4,8 +4,9 @@
   "resourceName": "Notepad",
   "logFileName":"launcher.log",
   "browser": "ie",
-  "timeoutForResource": 30,
-  "timeoutForElements": 30, 
+  "testScript": "Test.ps1",
+  "timeoutForResource": 15,
+  "timeoutForElements": 15, 
   "interval": 300,
   "syncTime": "00:01"
 }

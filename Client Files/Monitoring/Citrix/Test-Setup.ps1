@@ -10,6 +10,7 @@
         $Env:Browser = $configuration.browser
         $Env:TimeoutForResource = $configuration.timeoutForResource
         $Env:TimeoutForElements = $configuration.timeoutForElements
+		$Env:TestScript = $configuration.testScript
         $Credentials = Get-Credential -message "Please enter credentials for citrix logon"
         $Env:Username = $Credentials.username
         $Env:Password = $Credentials.GetNetworkCredential().Password
@@ -26,7 +27,7 @@ Get-Item "*.xml" | Get-Content -Raw | ForEach-Object { [xml]$_ } | Select -Expan
 
 Get-Item "*.csv" | Get-Content -Raw | ConvertFrom-Csv | DiscoverConfig
 
-$scriptResult = (Start-Process powershell -verb 'runas' -ArgumentList '-File',".\Scripts\Test-CitrixApp.ps1",'-LogFilePath',".\Logs",'-LogFileName',$Env:LogFileName,'-SiteURL',$Env:StoreFrontUrl,'-UserName',$Env:Username,'-Password',$Env:Password,'-ResourceName',$Env:ResourceName,'-Browser',$Env:Browser,'-ResourceTimeout',$Env:TimeoutForResource,'-ElementTimeout',$Env:TimeoutForElements -Wait -PassThru).ExitCode
+$scriptResult = (Start-Process powershell -verb 'runas' -ArgumentList '-File',".\Scripts\Test-CitrixApp.ps1",'-LogFilePath',".\Logs",'-LogFileName',$Env:LogFileName,'-SiteURL',$Env:StoreFrontUrl,'-UserName',$Env:Username,'-Password',$Env:Password,'-ResourceName',$Env:ResourceName,'-Browser',$Env:Browser,'-ResourceTimeout',$Env:TimeoutForResource,'-ElementTimeout',$Env:TimeoutForElements,'-TestScript',$Env:TestScript -Wait -PassThru).ExitCode
 
 Write-Output $scriptResult
 

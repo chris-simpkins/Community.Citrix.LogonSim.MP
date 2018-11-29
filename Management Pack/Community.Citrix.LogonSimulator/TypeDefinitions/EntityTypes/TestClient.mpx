@@ -9,6 +9,7 @@
           <Property ID="ResourceName" Type="string" MaxLength="256" MinLength="0" Required="true"/>
           <Property ID="LogFileName" Type="string" MaxLength="256" MinLength="0" Required="true"/>
           <Property ID="Browser" Type="string"  MaxLength="256" MinLength="0" Required="false"/>
+          <Property ID="TestScript" Type="string"  MaxLength="256" MinLength="0" Required="false"/>
           <Property ID="TimeoutForResource" Type="int" Required="false"/>
           <Property ID="TimeoutForElements" Type="int" Required="false"/>
           <Property ID="Interval" Type="int" Required="true"/>
@@ -60,6 +61,10 @@
         </DisplayString>
         <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="TimeoutForElements">
           <Name>Elements Timeout</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="TestScript">
+          <Name>Test Script</Name>
           <Description></Description>
         </DisplayString>
         <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="Interval">

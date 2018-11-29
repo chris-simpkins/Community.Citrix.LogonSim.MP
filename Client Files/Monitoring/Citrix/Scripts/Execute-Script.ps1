@@ -19,7 +19,7 @@ Import-Module (Join-Path $PSScriptRoot "Selenium.psm1")
 
 function waitForElement($selectorType, $selector) {
     
-    for($i=0; $i -le $ElementTimeout; $i++) {
+    for($i=0; $i -lt $ElementTimeout; $i++) {
         Set-Variable -Name "ElementPresent" -value $false -Scope Global
         Set-Variable -Name "Element" -Value $null -Scope Global
         Start-Sleep -Seconds 1

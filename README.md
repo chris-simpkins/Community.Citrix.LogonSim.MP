@@ -2,23 +2,31 @@
 
 ## What is the Citrix Logon Simulator MP?
 
-It's a Microsoft System Center Operations Manager (SCOM) management pack for simulating logons to Citrix XenApp and XenDesktop via NetScaler and StoreFront. You will need SCOM to use the management pack.
+It's a Microsoft System Center Operations Manager (SCOM) management pack for simulating logons to Citrix XenApp and XenDesktop via ***NetScaler and StoreFront*** - check terminology. You will need SCOM to use the management pack.
 
-Once installed and configured, the management pack will perform regular, automated application launches in your Citrix environment to enure your applications are available to end users. Using SCOM, you can configure email notifications for any failures, build dashboards to show real-time availability, and create management reports to demonstrate Citrix uptime and availability.
+Once installed and configured, the management pack will perform regular, automated application launches in your Citrix environment to ensure your applications are available to end users. Using SCOM, you can configure email notifications for any failures, build dashboards to show real-time availability,and create management reports to demonstrate Citrix uptime and availability.
+
+### The Script
+
+The MP works by running a Powershell script on a test client. The script uses Selenium Webdriver to simulate a user logging on to the specified Citrix environment and launching an application through a web browser. It will then verify whether the application launched successfully.
+
+Depending on whether the script runs successfully, an exit code will be returned which the SCOM monitor interprets as either a pass or a fail on the availability of Citrix.
+
+Further details on the scripts execution steps can be found found in Step 2 of the "Getting Started" section.
 
 ## Getting started
 
-This GitHub repository contains the source files. The downloadable management pack and assoaciated files can be found here:
+This GitHub repository contains the source files. The downloadable management pack and associated files can be found here:
 
 https://download.squaredup.com/management-packs/citrix-logon-simulator-community/
 
 To install the Logon Simulator you will need:
 
 - SCOM 2012 R2 (earlier versions may be supported but are untested)
-- Citrix XenDesktop or XenApp, with StoreFront 3.5 or later (the script requires a minor modification to run with SF 3.0)
+- Citrix XenDesktop or XenApp accessible through your web browser
 - A user account that will be used to perform the logons. The account must have access to one or more desktops or applications.
 - A test application (e.g. Notepad) or desktop that will be launched. The above user must have access to the application.
-- A test machine with Internet Explorer and Citrix Receiver installed, from where the logons will be made
+- A test machine with Internet Explorer installed, from where the logons will be made
 
 The Logon Simulator is split into two parts:
 1. A management pack that the SCOM administrator will need to install
@@ -30,12 +38,11 @@ Import the management pack `Community.Citrix.LogonSimulator.mpb` into SCOM using
 
 The MP will show up as `Citrix Logon Simulator (Community MP)`.
 
-The MP adds a new Run As Profile called `Citrix Logon Simulator User Account`. This must be configured with a user account that will be used for the simulatated logons. Ensure that the user account is configured to be distributed by SCOM to the test client(s).
+The MP adds a new Run As Profile called `Citrix Logon Simulator User Account`. This must be configured with a user account that will be used for the simulated logons. Ensure that the user account is configured to be distributed by SCOM to the test client(s).
 
 The MP also adds a discovery called `Discover Citrix Logon Simulator Test`. This can be viewed in the SCOM console under `Authoring > Management Pack Objects > Object Discoveries`.
 
 The discovery is set to run every hour by default, on all Windows Computers. You can override the discovery to run more regularly on your target client machines.
-
 
 ### Step 2 – Prepare the client test machine
 
@@ -45,11 +52,11 @@ Let's break this down into several smaller steps:
 
 #### Select and prepare a test client machine:
 
-The machine must be a Windows computer monitored by SCOM, with Citrix Receiver installed.
+The machine must be a Windows computer monitored by SCOM.
 
 Verify the user logon by manually browsing to your StoreFront URL, logon with the **test user credentials** and launch the test application.
 
-**REALLY IMPORTANT** Verify that the logon and application launch involves no pop-up dialogs, file downloads or other user interruptions. The test application must also be available on the front page after user logon, i.e. in the user favourites.
+**REALLY IMPORTANT** - Verify that the logon and application launch involves no pop-up dialogs, file downloads or other user interruptions and the URL is accessible from the test machine. Also ensure the browser zoom is set to 100% and protected mode is enabled for ALL zones. The tested application must also be available on the front page after user logon, i.e. in the user recents/favourites. 
 
 #### Configure and test the script: 
 
@@ -60,40 +67,27 @@ C:\
   Monitoring\
     Citrix\
       Example Configuration Files\
-      Logs\
       Scripts\
 ```
+2. Configure the machine as a test client so that SCOM will automatically run the script.
+    1. Copy the config.json from `C:\Monitoring\Citrix\Example Configuration Files` to `C:\Monitoring\Citrix`
+    2. Edit the file, replacing the placeholder values with the details for your environment.
+    3. Make sure to enter the name of the script that will run for your environment in the "testScript" field.
 
-2. In order for the script to logoff the ICA sessions automatically, you must add the following registry key:
+3. In an elevated Powershell session, run the setup testing script `Test-Setup.ps1`, entering the Citrix logon user's credentials when prompted. This script replicates the method in which the SCOM agent will run the script.
 
-```
-HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Citrix\ICA Client\CCM\AllowLiveMonitoring = 1 (REG_DWORD)
-```
-
-3. You’re now ready to test the script. Open a Administrator PowerShell window and run the following, substituting in your own parameters:
-
-```
-C:\Monitoring\Citrix\Scripts\Test-CitrixApp.ps1 -SiteURL https://mycorp.com/Citrix/StoreWeb -UserName domain\username -Password password -ResourceName Notepad
-```
-
-Verify that the script performs the following actions:
-- opens IE
-- logs on
-- launches the app
-- waits
-- closes IE
-- logs off the app
-
-
-Lastly, configure the machine as a test client so that SCOM will automatically run the script.
-
-1. Copy the config.json from `C:\Monitoring\Citrix\Example Configuration Files` to `C:\Monitoring\Citrix`
-
-2. Edit the file, replacing the placeholder values with the details for your environment.
+    Verify that the script performs the following actions:
+    - Opens IE
+    - Logs on
+    - Checks for logon errors
+    - Checks for "lite version pop-up"
+    - Launches the app
+    - Waits
+    - Closes IE
 
 ### Step 3 - Check everything's working
 
-That’s it. SCOM should now discover the config.json file, create new `Citrix Logon Simulator Test` objects hosted on the `Windows Computer` object to represent the tests, and start executing the logon script.
+That’s it! SCOM should now discover the config.json file, create new `Citrix Logon Simulator Test` objects hosted on the `Windows Computer` object to represent the tests, and start executing the logon script.
 
 To verify the test clients are discovered and the tests are running, you can use the SCOM console:
 

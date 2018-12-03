@@ -55,6 +55,10 @@
           <Name>Browser Type</Name>
           <Description></Description>
         </DisplayString>
+        <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="TestScript">
+          <Name>Test Script</Name>
+          <Description></Description>
+        </DisplayString>
         <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="TimeoutForResource">
           <Name>Resource Timeout</Name>
           <Description></Description>
@@ -62,11 +66,7 @@
         <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="TimeoutForElements">
           <Name>Elements Timeout</Name>
           <Description></Description>
-        </DisplayString>
-        <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="TestScript">
-          <Name>Test Script</Name>
-          <Description></Description>
-        </DisplayString>
+        </DisplayString> 
         <DisplayString ElementID="Community.Citrix.LogonSimulator.Test" SubElementID="Interval">
           <Name>Interval</Name>
           <Description></Description>

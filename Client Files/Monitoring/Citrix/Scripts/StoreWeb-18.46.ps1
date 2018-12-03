@@ -1,19 +1,24 @@
-﻿function Test-Citrix {
+﻿<#
+This script has been tested and is working on the following versions of Citrix StoreWeb:
+	- release/18.46
+#>
+
+function Test-Citrix {
 
     Write-LauncherLog "Testing URL $SiteURL"
     Enter-Url $SiteURL
 
-    Check-Exist -Id "login"
+    Check-Exist -Id "username"
 	Write-LauncherLog "Login page loaded successfully"
 
 	Write-LauncherLog "Entering Username"
-	Enter-Text -Id "login" -text $UserName
+	Enter-Text -Id "username" -text $UserName
     
     Write-LauncherLog "Entering Password"
-    Enter-Text -Id "passwd" -text $Password
+    Enter-Text -Id "password" -text $Password
    
     Write-launcherLog "Clicking Logon" 
-    Click-Button -Id "Log_On" 
+    Click-Button -Id "loginBtn" 
 
     Write-launcherLog "Checking for errors"
     Check-NotExist -class "error"

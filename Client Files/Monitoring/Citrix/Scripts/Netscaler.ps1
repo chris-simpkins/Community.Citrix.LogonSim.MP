@@ -1,19 +1,24 @@
-﻿function Test-Citrix {
+﻿<#
+This script has been tested and is working on the following versions of Citrix Netscaler:
+	- 
+#>
+
+function Test-Citrix {
 
     Write-LauncherLog "Testing URL $SiteURL"
     Enter-Url $SiteURL
 
-    Check-Exist -Id "username"
+    Check-Exist -Id "login"
 	Write-LauncherLog "Login page loaded successfully"
 
 	Write-LauncherLog "Entering Username"
-	Enter-Text -Id "username" -text $UserName
+	Enter-Text -Id "login" -text $UserName
     
     Write-LauncherLog "Entering Password"
-    Enter-Text -Id "password" -text $Password
+    Enter-Text -Id "passwd" -text $Password
    
     Write-launcherLog "Clicking Logon" 
-    Click-Button -Id "loginBtn" 
+    Click-Button -Id "Log_On" 
 
     Write-launcherLog "Checking for errors"
     Check-NotExist -class "error"

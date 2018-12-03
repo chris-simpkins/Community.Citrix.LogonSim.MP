@@ -16,6 +16,7 @@ function AddDiscoveredObject {
 		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/ConfigurationPath$", [string]$ConfigurationPath)
 		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/StoreFrontUrl$", [string]$configuration.storeFrontUrl) 
 		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/ResourceName$", [string]$configuration.resourceName)
+		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/LogFileName$", [string]$configuration.logFileName)
 		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/Browser$", [string]$configuration.browser) 
 		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/TestScript$", [string]$configuration.testScript) 
 		$obj.AddProperty("$MPElement[Name='Community.Citrix.LogonSimulator.Test']/TimeoutForResource$", [int]$configuration.timeoutForResource) 

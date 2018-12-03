@@ -2,7 +2,7 @@
 
 ## What is the Citrix Logon Simulator MP?
 
-It's a Microsoft System Center Operations Manager (SCOM) management pack for simulating logons to Citrix XenApp and XenDesktop via ***NetScaler and StoreFront*** - check terminology. You will need SCOM to use the management pack.
+It's a Microsoft System Center Operations Manager (SCOM) management pack for simulating logons to Citrix XenApp and XenDesktop via NetScaler or Storefront in a web browser. You will need SCOM to use the management pack.
 
 Once installed and configured, the management pack will perform regular, automated application launches in your Citrix environment to ensure your applications are available to end users. Using SCOM, you can configure email notifications for any failures, build dashboards to show real-time availability,and create management reports to demonstrate Citrix uptime and availability.
 
@@ -12,7 +12,7 @@ The MP works by running a Powershell script on a test client. The script uses Se
 
 Depending on whether the script runs successfully, an exit code will be returned which the SCOM monitor interprets as either a pass or a fail on the availability of Citrix.
 
-Further details on the scripts execution steps can be found found in Step 2 of the "Getting Started" section.
+Further details on the script execution steps can be found found in Step 2 of the "Getting Started" section.
 
 ## Getting started
 
@@ -23,7 +23,7 @@ https://download.squaredup.com/management-packs/citrix-logon-simulator-community
 To install the Logon Simulator you will need:
 
 - SCOM 2012 R2 (earlier versions may be supported but are untested)
-- Citrix XenDesktop or XenApp accessible through your web browser
+- Citrix XenDesktop or XenApp accessible through a web browser
 - A user account that will be used to perform the logons. The account must have access to one or more desktops or applications.
 - A test application (e.g. Notepad) or desktop that will be launched. The above user must have access to the application.
 - A test machine with Internet Explorer installed, from where the logons will be made
@@ -56,7 +56,7 @@ The machine must be a Windows computer monitored by SCOM.
 
 Verify the user logon by manually browsing to your StoreFront URL, logon with the **test user credentials** and launch the test application.
 
-**REALLY IMPORTANT** - Verify that the logon and application launch involves no pop-up dialogs, file downloads or other user interruptions and the URL is accessible from the test machine. Also ensure the browser zoom is set to 100% and protected mode is enabled for ALL zones. The tested application must also be available on the front page after user logon, i.e. in the user recents/favourites. 
+**REALLY IMPORTANT** - Verify that the logon and application launch involves no pop-up dialogs, file downloads or other user interruptions and the URL is accessible from the test machine. Ensure the browser zoom is set to 100% and protected mode is enabled for **ALL** zones. The tested application must also be available on the front page after user logon, i.e. in the user recents/favourites. 
 
 #### Configure and test the script: 
 
@@ -72,9 +72,9 @@ C:\
 2. Configure the machine as a test client so that SCOM will automatically run the script.
     1. Copy the config.json from `C:\Monitoring\Citrix\Example Configuration Files` to `C:\Monitoring\Citrix`
     2. Edit the file, replacing the placeholder values with the details for your environment.
-    3. Make sure to enter the name of the script that will run for your environment in the "testScript" field.
+    3. Make sure to enter the name of the script that matches your environment in the **testScript** field (i.e. If you are running StoreWeb you would use StoreWeb-18.xx.ps1)
 
-3. In an elevated Powershell session, run the setup testing script `Test-Setup.ps1`, entering the Citrix logon user's credentials when prompted. This script replicates the method in which the SCOM agent will run the script.
+3. In an elevated Powershell session, run the script `Test-Setup.ps1`, entering the Citrix logon user's credentials when prompted. This script replicates the method in which the SCOM agent will run the script.
 
     Verify that the script performs the following actions:
     - Opens IE

@@ -8,9 +8,9 @@
 	$ConfigurationPath,
 	$LogFileName,
 	$Browser,
+	$TestScript,
 	$TimeoutForResource,
-	$TimeoutForElements,
-	$TestScript
+	$TimeoutForElements
 )
 
 $scriptName = "Execute-Test.ps1"

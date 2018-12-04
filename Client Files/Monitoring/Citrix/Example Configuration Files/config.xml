@@ -5,7 +5,7 @@
   <logFileName>launcher.log</logFileName>
   <browser>ie</browser>
   <testScript>Test.ps1</testScript>
-  <timeoutForResource>10</timeoutForResource>
+  <timeoutForResource>15</timeoutForResource>
   <timeoutForElements>10</timeoutForElements>
   <interval>300</interval>
   <syncTime>00:01</syncTime>

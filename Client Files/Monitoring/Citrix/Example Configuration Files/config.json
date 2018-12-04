@@ -5,7 +5,7 @@
   "logFileName":"launcher.log",
   "browser": "ie",
   "testScript": "Test.ps1",
-  "timeoutForResource": 10,
+  "timeoutForResource": 15,
   "timeoutForElements": 10, 
   "interval": 300,
   "syncTime": "00:01"

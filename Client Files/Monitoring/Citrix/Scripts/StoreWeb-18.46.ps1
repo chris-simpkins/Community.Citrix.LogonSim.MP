@@ -1,5 +1,5 @@
 ﻿<#
-This script has been tested and is working on the following versions of Citrix StoreWeb:
+This script has been tested on the following StoreWeb versions:
 	- release/18.46
 #>
 
@@ -28,19 +28,17 @@ function Test-Citrix {
     
     Write-LauncherLog "Clicking resource: $ResourceName"
     Click-Button -xpath "//span[@title='$ResourceName']"
+	
+	Write-LauncherLog "Checking resource launched" #This step may not be necessary
+	Check-Exist -class "loadingIcon_11uwnfs" -optional $true
+	if($exist -eq $false){
+		Click-Button -xpath "//span[@title='$ResourceName']" #If not loading, click again
+	}
 
     Write-LauncherLog "Waiting for resource timeout"
     start-sleep -seconds $ResourceTimeout
 
     Write-LauncherLog "Verifying session launched"
-    Switch-Tab 2 #Change to second tab
-
-    $Application = $Tab.Title #Get title of second tab
-
-    if($Application -eq $ResourceName){ #Check title of second tab is same as resource
-        Write-LauncherLog "Resource $ResourceName launched successfully"
-    } else {
-        throw "Unable to confirm session launched"
-    }  
+    Verify-Launched $ResourceName
 
 }

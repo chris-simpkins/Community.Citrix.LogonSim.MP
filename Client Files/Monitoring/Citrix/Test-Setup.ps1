@@ -27,9 +27,7 @@ Get-Item "*.xml" | Get-Content -Raw | ForEach-Object { [xml]$_ } | Select -Expan
 
 Get-Item "*.csv" | Get-Content -Raw | ConvertFrom-Csv | DiscoverConfig
 
-$scriptResult = (Start-Process powershell -verb 'runas' -ArgumentList '-File',".\Scripts\Execute-Script.ps1",'-LogFilePath',".\Logs",'-LogFileName',$Env:LogFileName,'-SiteURL',$Env:StoreFrontUrl,'-UserName',$Env:Username,'-Password',$Env:Password,'-ResourceName',$Env:ResourceName,'-Browser',$Env:Browser,'-ResourceTimeout',$Env:TimeoutForResource,'-ElementTimeout',$Env:TimeoutForElements,'-TestScript',$Env:TestScript -Wait -PassThru).ExitCode
-
-Write-Output $scriptResult
+$scriptResult = (Start-Process powershell -verb 'runas' -ArgumentList '-File',".\Scripts\Execute-Script.ps1",'-LogFilePath',".\Logs",'-LogFileName',$Env:LogFileName,'-SiteURL',$Env:StoreFrontUrl,'-UserName',$Env:Username,'-Password',$Env:Password,'-ResourceName',`"$Env:ResourceName`",'-Browser',$Env:Browser,'-ResourceTimeout',$Env:TimeoutForResource,'-ElementTimeout',$Env:TimeoutForElements,'-TestScript',$Env:TestScript -Wait -PassThru).ExitCode
 
 if($scriptResult -eq 0){ write-output "Script ran successfully" } else { write-output "Test Script Failed, please check the logs" }
  

@@ -141,8 +141,8 @@ function Check-Exist {
         $TagName,
         [Parameter(ParameterSetName = "xpath")]
         $XPath,
-        [Parameter()]
-        $text
+		[Parameter()]
+        $optional
     )
 
     switch ($PSCmdlet.ParameterSetName) {
@@ -157,8 +157,13 @@ function Check-Exist {
     }
 
     if($ElementPresent -eq $false){
-        throw "Element was not found, aborting..."
+		if(!$optional){
+			throw "Element was not found, aborting..."
+		} else {
+			set-variable -Name "exist" -Value $false -Scope Global
+		}
     } else {
+		set-variable -Name "exist" -Value $true -Scope Global
         write-launcherLog "Element found, continuing..."
     }
 
@@ -178,9 +183,7 @@ function Check-NotExist {
         [Parameter(ParameterSetName = "tag")]
         $TagName,
         [Parameter(ParameterSetName = "xpath")]
-        $XPath,
-        [Parameter()]
-        $text
+        $XPath
     )
 
     switch ($PSCmdlet.ParameterSetName) {
@@ -202,14 +205,24 @@ function Check-NotExist {
 
 }
 
-function Switch-Tab($index) {
-
-    $index = $($index - 1)
-
-    Set-Variable -Name "Tab" -Value $Driver -Scope Global
-
-    $Driver.SwitchTo().Window($Driver.WindowHandles[$index])
-
+function Verify-Launched($Resource) {
+	
+	$Windows = $Driver.WindowHandles
+	
+	$Position = $Windows.indexof($Driver.CurrentWindowHandle)
+	
+	if($Position -eq 0){
+		$Driver.SwitchTo().Window($Driver.WindowHandles[1])
+	} else {
+		$Driver.SwitchTo().Window($Driver.WindowHandles[0])
+	}
+	
+	if($Driver.Title -eq $Resource){
+		Write-LauncherLog "Resource $Resource launched successfully"
+	} else {
+		throw "Unable to confirm session launched"
+	}
+	
 }
 
 function Clear-Log {
@@ -282,13 +295,7 @@ try {
     Write-LauncherHeader
 
     Write-LauncherLog "Opening Driver Browser"
-    if($Browser -eq "firefox") {
-        $Driver = Start-SeFirefox
-    } elseif($Browser -eq "chrome") {
-        $Driver = Start-SeChrome
-    } else {
-        $Driver = Start-SeIe
-    }
+    $Driver = Start-SeIe
     
     Test-Citrix
 

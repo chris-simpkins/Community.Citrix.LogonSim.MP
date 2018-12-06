@@ -71,7 +71,7 @@ C:\
 ```
 2. Configure the machine as a test client so that SCOM will automatically run the script.
     1. Copy the config.json from `C:\Monitoring\Citrix\Example Configuration Files` to `C:\Monitoring\Citrix`
-    2. Edit the file, replacing the placeholder values with the details for your environment.
+    2. Edit the file, replacing the placeholder values with the details for your environment. (Resource Names are case sensitive)
     3. Make sure to enter the name of the script that matches your environment in the **testScript** field (i.e. If you are running StoreWeb you would use StoreWeb-18.xx.ps1)
 
 3. In an elevated Powershell session, run the script `Test-Setup.ps1`, entering the Citrix logon user's credentials when prompted. This script replicates the method in which the SCOM agent will run the script.

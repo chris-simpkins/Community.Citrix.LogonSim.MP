@@ -71,8 +71,8 @@ C:\
 ```
 2. Configure the machine as a test client so that SCOM will automatically run the script.
     1. Copy the config.json from `C:\Monitoring\Citrix\Example Configuration Files` to `C:\Monitoring\Citrix`
-    2. Edit the file, replacing the placeholder values with the details for your environment. (Resource Names are case sensitive)
-    3. Make sure to enter the name of the script that matches your environment in the **testScript** field (i.e. If you are running StoreWeb you would use StoreWeb-18.xx.ps1)
+    2. Edit the file, replacing the placeholder values with the details for your environment. (Resource names are case sensitive)
+    3. With this version of the management pack, our hope is that the community will contribute scripts that work for their deployments of Citrix. In order to use custom scripts that work for your deployment, please ensure that you populate the **testScript** field in the config. file (i.e. If you are running StoreWeb you would use StoreWeb-18.xx.ps1)
 
 3. In an elevated Powershell session, run the script `Test-Setup.ps1`, entering the Citrix logon user's credentials when prompted. This script replicates the method in which the SCOM agent will run the script.
 
@@ -92,6 +92,11 @@ That’s it! SCOM should now discover the config.json file, create new `Citrix L
 To verify the test clients are discovered and the tests are running, you can use the SCOM console:
 
 Navigate to `Monitoring > Discovered Inventory` and change the type to `Citrix Logon Simulator Test`. You should see the test clients appear. Click on one to see its properties. There will also be an agent task available called `View Last Logon Result` that you can use to view the most recent test log.
+
+## Known Issues
+
+- SU-6389 - Internet Explorer sometimes uses 100% CPU on a single core after a run
+- SU-6384 - An exception where the browser fails to launch doesn't affect the health state in SCOM
 
 ## Need help?
 
